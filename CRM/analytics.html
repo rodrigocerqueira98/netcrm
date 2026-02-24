@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visão de Negócio | NETCRM PRO</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Ajustes específicos para a página de analytics */
+        .analytics-page .kpi-grid { margin-bottom: 32px; }
+        .analytics-page .section-grid { margin-bottom: 24px; }
+        .analytics-page .status { min-width: 100px; justify-content: center; }
+        .analytics-page .td-mono { font-weight: 600; color: var(--texto-discreto); }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" role="navigation" aria-label="Navegação principal">
+        
+        <div class="logo" aria-label="NETCRM PRO">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <span>NETCRM PRO</span>
+        </div>
+        
+        <div class="sidebar-status" role="status" aria-live="polite">
+            Monitoramento Ativo
+        </div>
+        
+        <nav aria-label="Menu do sistema">
+            <div class="nav-group-label">Visão Geral</div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> <span>Painel de Controle</span></a></li>
+                <li><a href="funil.html"><i class="fa-solid fa-bars-staggered" aria-hidden="true"></i> <span>Funil de Vendas</span></a></li>
+                <li><a href="clientes.html"><i class="fa-solid fa-users" aria-hidden="true"></i> <span>Base de Clientes</span></a></li>
+                <li class="active"><a href="analytics.html" aria-current="page"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span>Análise de Negócios</span></a></li>
+            </ul>
+
+            <div class="nav-group-label">Operação & Infraestrutura</div>
+            <ul class="nav-links">
+                <li><a href="monitoramento.html"><i class="fa-solid fa-server" aria-hidden="true"></i> <span>Monitoramento de Rede</span></a></li>
+                <li><a href="financeiro.html"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> <span>Faturamento</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <span>Configurações</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="user-avatar" aria-hidden="true">RO</div>
+                <div class="user-info">
+                    <div class="user-name">Rodrigo</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" role="main">
+        
+        <header role="banner">
+            <div class="header-left">
+                <h1>Análise de Negócios</h1>
+                <div class="header-breadcrumb">Visão Geral / <span>Indicadores de Performance</span></div>
+            </div>
+            
+            <div class="header-right">
+                <select id="periodoAnalytics" class="form-control" style="width: auto; background: var(--fundo-sobreposicao);" aria-label="Selecionar Período">
+                    <option value="30">Últimos 30 dias</option>
+                    <option value="90">Últimos 90 dias</option>
+                    <option value="365">Último ano fiscal</option>
+                </select>
+                
+                <button type="button" class="header-action" title="Exportar Relatório em PDF">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="content-area analytics-page">
+            
+            <div class="kpi-grid">
+                <div class="kpi-card animate-up stagger-1">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Receita Líquida</span>
+                        <div class="kpi-icon green" aria-hidden="true"><i class="fa-solid fa-brazilian-real-sign"></i></div>
+                    </div>
+                    <div class="kpi-value">R$ 847,2k</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> 18,4%</div>
+                    <div class="kpi-sub">comparado ao mês anterior</div>
+                </div>
+                
+                <div class="kpi-card animate-up stagger-2">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Ticket Médio</span>
+                        <div class="kpi-icon cyan" aria-hidden="true"><i class="fa-solid fa-receipt"></i></div>
+                    </div>
+                    <div class="kpi-value">R$ 17.651</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> R$ 2.100</div>
+                    <div class="kpi-sub">por novo contrato</div>
+                </div>
+                
+                <div class="kpi-card animate-up stagger-3">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Taxa de Conversão</span>
+                        <div class="kpi-icon blue" aria-hidden="true"><i class="fa-solid fa-percent"></i></div>
+                    </div>
+                    <div class="kpi-value">32,4%</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> 4,5%</div>
+                    <div class="kpi-sub">leads convertidos em clientes</div>
+                </div>
+                
+                <div class="kpi-card animate-up stagger-4">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Base de Clientes</span>
+                        <div class="kpi-icon purple" aria-hidden="true"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <div class="kpi-value">1.482</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> 42</div>
+                    <div class="kpi-sub">novas ativações no mês</div>
+                </div>
+            </div>
+
+            <div class="section-grid">
+                <div class="panel animate-up">
+                    <div class="panel-header">
+                        <div class="panel-title"><i class="fa-solid fa-chart-line"></i> Evolução da Receita</div>
+                        <div class="panel-actions">
+                            <button type="button" class="btn-ghost active">Mensal</button>
+                            <button type="button" class="btn-ghost">Trimestral</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chartReceita" height="280"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel animate-up">
+                    <div class="panel-header">
+                        <div class="panel-title"><i class="fa-solid fa-filter"></i> Desempenho do Funil</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="funnel-bar">
+                            <div class="funnel-row">
+                                <span class="funnel-label">Leads</span>
+                                <div class="funnel-track"><div class="funnel-fill" style="width: 100%; background: var(--info);">1.200</div></div>
+                                <span class="funnel-count">100%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">Qualificados</span>
+                                <div class="funnel-track"><div class="funnel-fill" style="width: 75%; background: var(--aviso);">900</div></div>
+                                <span class="funnel-count">75%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">Proposta</span>
+                                <div class="funnel-track"><div class="funnel-fill" style="width: 45%; background: var(--destaque);">540</div></div>
+                                <span class="funnel-count">45%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">Contratos</span>
+                                <div class="funnel-track"><div class="funnel-fill" style="width: 32%; background: var(--sucesso);">384</div></div>
+                                <span class="funnel-count">32%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-grid full">
+                <div class="panel animate-up">
+                    <div class="panel-header">
+                        <div class="panel-title"><i class="fa-solid fa-star" style="color: var(--aviso);"></i> Oportunidades Prioritárias</div>
+                        <a href="funil.html" class="btn-ghost" style="text-decoration: none; font-size: 12px;">Ver Funil Completo</a>
+                    </div>
+                    <div class="panel-body no-pad">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Cliente / Negócio</th>
+                                    <th>Etapa Atual</th>
+                                    <th>Valor Estimado</th>
+                                    <th>Previsão de Fechamento</th>
+                                    <th style="text-align: right;">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="client-name">TechCorp Alpha</div>
+                                        <div class="client-doc">Projeto: Expansão de Infraestrutura</div>
+                                    </td>
+                                    <td><span class="status proposta">Em Proposta</span></td>
+                                    <td class="cell-value">R$ 48.900,00</td>
+                                    <td class="td-mono">Março / 2026</td>
+                                    <td style="text-align: right;"><button class="btn-ghost"><i class="fa-solid fa-chevron-right"></i></button></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="client-name">Marcos Rocha</div>
+                                        <div class="client-doc">Projeto: Link Dedicado Unidade II</div>
+                                    </td>
+                                    <td><span class="status negociacao">Em Negociação</span></td>
+                                    <td class="cell-value">R$ 22.500,00</td>
+                                    <td class="td-mono">Abril / 2026</td>
+                                    <td style="text-align: right;"><button class="btn-ghost"><i class="fa-solid fa-chevron-right"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel animate-up" style="border-top: 3px solid var(--alerta);">
+                <div class="panel-header">
+                    <div class="panel-title" style="color: var(--alerta);"><i class="fa-solid fa-triangle-exclamation"></i> Negócios sob Atenção (Aging)</div>
+                </div>
+                <div class="panel-body no-pad">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Motivo do Alerta</th>
+                                <th>Valor Retido</th>
+                                <th>Inatividade (Dias)</th>
+                                <th style="text-align: right;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="client-name">Fernanda Costa</div>
+                                    <div class="client-doc">Pessoa Física - Fibra 300MB</div>
+                                </td>
+                                <td><span class="priority media">Aguardando Retorno</span></td>
+                                <td class="cell-value">R$ 12.400,00</td>
+                                <td class="td-mono" style="color: var(--alerta);">18 dias</td>
+                                <td style="text-align: right;"><button class="btn-ghost" title="Reengajar Cliente"><i class="fa-solid fa-phone"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('chartReceita');
+            if (!ctx) return;
+
+            // Estilos corporativos para o gráfico
+            const blueGradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 400);
+            blueGradient.addColorStop(0, 'rgba(37, 99, 235, 0.15)');
+            blueGradient.addColorStop(1, 'rgba(37, 99, 235, 0.01)');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Set', 'Out', 'Nov', 'Dez', 'Jan', 'Fev'],
+                    datasets: [{
+                        label: 'Receita Realizada (R$)',
+                        data: [680000, 810000, 790000, 850000, 820000, 847250],
+                        borderColor: '#2563EB',
+                        backgroundColor: blueGradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#2563EB',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#6B7280', font: { family: 'Inter', size: 12 } }
+                        },
+                        y: {
+                            grid: { color: '#F3F4F6' },
+                            ticks: { 
+                                color: '#6B7280', 
+                                font: { family: 'Inter', size: 12 },
+                                callback: (value) => 'R$ ' + (value / 1000) + 'k'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

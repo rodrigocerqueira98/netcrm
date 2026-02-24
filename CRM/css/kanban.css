@@ -1,0 +1,1130 @@
+/* =====================================================
+   KANBAN.CSS — Pipeline de Vendas
+   Ferramenta de Gestão · Consistente com style.css
+   ===================================================== */
+
+/* =========================================
+   1. Layout Raiz do Board
+   ========================================= */
+.kanban-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    gap: 0;
+}
+
+/* Toolbar do pipeline */
+.kanban-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 16px 0;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.kanban-toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.kanban-toolbar-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Sumário rápido — total do pipeline no topo */
+.pipeline-summary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+}
+
+.pipeline-summary strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.pipeline-summary .pipe-sep {
+    width: 1px;
+    height: 12px;
+    background: var(--border);
+    margin: 0 4px;
+}
+
+.pipeline-summary .pipe-count {
+    color: var(--text-secondary);
+}
+
+/* Header e toolbar da página do funil */
+.pipeline-header .pipeline-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.pipeline-summary-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+}
+
+.pipeline-summary-strip strong { color: var(--text-primary); }
+
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.toolbar-actions .search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 6px 12px;
+    min-width: 200px;
+    transition: var(--transition);
+}
+
+.toolbar-actions .search-wrap:focus-within {
+    border-color: var(--border-strong);
+}
+
+.toolbar-actions .search-wrap i { color: var(--text-muted); }
+.toolbar-actions .search-wrap input {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+}
+
+.filter-panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+    z-index: 100;
+}
+
+.filter-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.multiselect-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--bg-overlay);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.kanban-area {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-board-inner {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    gap: 16px;
+    padding-bottom: 16px;
+    align-items: flex-start;
+}
+
+/* Toggle de visualização */
+.view-toggle {
+    display: flex;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.view-toggle-btn {
+    padding: 6px 11px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 13px;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+}
+
+.view-toggle-btn.active {
+    background: var(--bg-overlay);
+    color: var(--text-primary);
+}
+
+.view-toggle-btn:hover:not(.active) {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+}
+
+/* =========================================
+   2. Scroll Container do Board
+   ========================================= */
+.kanban-scroll {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 12px;
+
+    /* Scrollbar discreta */
+    scrollbar-width: thin;
+    scrollbar-color: #404040 transparent;
+}
+
+.kanban-scroll::-webkit-scrollbar { height: 6px; }
+.kanban-scroll::-webkit-scrollbar-track { background: transparent; }
+.kanban-scroll::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 99px;
+}
+
+/* =========================================
+   3. Board — Grade de Colunas
+   ========================================= */
+.kanban-board {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 16px;
+    height: 100%;
+    min-width: 100%;
+    padding: 2px 2px 6px 2px;
+}
+
+/* =========================================
+   4. Coluna — Estágio do Pipeline
+   ========================================= */
+.kanban-column {
+    width: 280px;
+    flex-shrink: 0;
+    background: transparent;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow: hidden;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+/* Indicador sutil superior da coluna */
+.kanban-column::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    background: var(--col-accent, var(--border));
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.kanban-column:hover::before { opacity: 1; }
+
+/* Variantes de cor por estágio (Sóbrias) */
+.kanban-column.stage-lead      { --col-accent: var(--accent); } 
+.kanban-column.stage-contact   { --col-accent: var(--info); }   
+.kanban-column.stage-proposal  { --col-accent: var(--warning); }
+.kanban-column.stage-negocio   { --col-accent: #D97706; }       
+.kanban-column.stage-won       { --col-accent: var(--success); }
+.kanban-column.stage-lost      { --col-accent: var(--danger); } 
+
+/* Estado: drag sobre a coluna */
+.kanban-column.drag-over {
+    background: var(--bg-hover);
+    border-radius: var(--radius-lg);
+}
+.kanban-column.drag-over::before {
+    opacity: 1;
+    height: 2px;
+}
+
+/* =========================================
+   5. Cabeçalho da Coluna
+   ========================================= */
+.kanban-col-header {
+    padding: 12px 0 12px 4px;
+    flex-shrink: 0;
+}
+
+.kanban-col-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* Bolinha colorida do estágio */
+.col-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.kanban-column.stage-lead     .col-dot { background: var(--accent); }
+.kanban-column.stage-contact  .col-dot { background: var(--info); }
+.kanban-column.stage-proposal .col-dot { background: var(--warning); }
+.kanban-column.stage-negocio  .col-dot { background: #D97706; }
+.kanban-column.stage-won      .col-dot { background: var(--success); }
+.kanban-column.stage-lost     .col-dot { background: var(--danger); }
+
+.col-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.col-count {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.col-menu {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.col-menu:hover {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+/* Stats da coluna */
+.kanban-col-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding-left: 16px;
+}
+
+.col-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.col-stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.col-stat-value {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Mini barra de progresso da coluna (tx. conversão) */
+.col-conversion {
+    margin-top: 10px;
+    padding-left: 16px;
+}
+
+.col-conversion-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.col-conversion-text {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.col-conversion-pct {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.col-conversion-track {
+    height: 2px;
+    background: var(--bg-surface);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.col-conversion-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--col-accent, var(--text-secondary));
+    transition: width 0.6s ease;
+}
+
+/* =========================================
+   6. Área de Cards com Scroll
+   ========================================= */
+.kanban-cards {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 4px 10px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+}
+
+.kanban-cards::-webkit-scrollbar { width: 4px; }
+.kanban-cards::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 99px;
+}
+
+/* Zona de drop vazia — feedback visual */
+.kanban-cards.drop-target-empty {
+    background: var(--bg-hover);
+    border-radius: var(--radius-md);
+    border: 1px dashed var(--border-strong);
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.drop-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0.8;
+    display: none;
+}
+
+.kanban-cards.drop-target-empty .drop-hint {
+    display: block;
+}
+
+/* =========================================
+   7. Card de Oportunidade
+   ========================================= */
+.kanban-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    cursor: grab;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, border-color 0.1s ease;
+    position: relative;
+    user-select: none;
+    animation: card-in 0.2s ease both;
+}
+
+@keyframes card-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hover Sutil */
+.kanban-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Estado: sendo arrastado */
+.kanban-card:active,
+.kanban-card.dragging {
+    cursor: grabbing;
+    transform: rotate(2deg) scale(1.02);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    opacity: 0.95;
+}
+
+/* Ghost do card enquanto arrasta */
+.kanban-card.drag-ghost {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Placeholder de drop */
+.kanban-card-placeholder {
+    background: var(--bg-hover);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    height: 80px;
+}
+
+/* =========================================
+   8. Conteúdo Interno do Card
+   ========================================= */
+
+/* Linha 1 — Badge de estágio + menu */
+.kcard-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 6px;
+}
+
+.kcard-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.kcard-tag.tag-inbound   { background: var(--info-bg);    color: var(--info); border-color: rgba(59, 130, 246, 0.2); }
+.kcard-tag.tag-outbound  { background: var(--accent-glow); color: var(--accent); border-color: rgba(139, 92, 246, 0.2); }
+.kcard-tag.tag-referral  { background: var(--success-bg); color: var(--success); border-color: rgba(16, 185, 129, 0.2); }
+.kcard-tag.tag-campaign  { background: var(--warning-bg); color: var(--warning); border-color: rgba(245, 158, 11, 0.2); }
+.kcard-tag.tag-renovacao { background: var(--bg-overlay); color: var(--text-primary); border-color: var(--border); }
+
+.kcard-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.kanban-card:hover .kcard-actions {
+    opacity: 1;
+}
+
+.kcard-btn {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.kcard-btn:hover {
+    background: var(--bg-overlay);
+    color: var(--text-primary);
+}
+
+/* Linha 2 — Título da oportunidade */
+.kcard-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-clamp: 2;
+}
+
+/* Linha 3 — Empresa */
+.kcard-company {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kcard-company i { font-size: 11px; }
+
+/* Linha 4 — Métricas */
+.kcard-metrics {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.kcard-value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.kcard-prob {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.kcard-prob.high  { background: var(--success-bg); color: var(--success); border-color: rgba(16, 185, 129, 0.2); }
+.kcard-prob.med   { background: var(--warning-bg); color: var(--warning); border-color: rgba(245, 158, 11, 0.2); }
+.kcard-prob.low   { background: var(--danger-bg);  color: var(--danger); border-color: rgba(239, 68, 68, 0.2); }
+
+/* Mini barra de probabilidade */
+.kcard-prob-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--bg-overlay);
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 40px;
+}
+
+.kcard-prob-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.kcard-prob-fill.high { background: var(--success); }
+.kcard-prob-fill.med  { background: var(--warning); }
+.kcard-prob-fill.low  { background: var(--danger); }
+
+/* Linha 5 — Responsável e prazo */
+.kcard-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+/* Responsável */
+.kcard-owner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.kcard-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--bg-base);
+    background: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kcard-owner-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Meta do lado direito */
+.kcard-right-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Data de fechamento */
+.kcard-due {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.kcard-due.overdue  { color: var(--danger); }
+.kcard-due.today    { color: var(--primary); font-weight: 500; }
+
+/* Ícones de atividade / badge */
+.kcard-activity-icons { display: flex; align-items: center; gap: 4px; }
+
+.kcard-act-icon {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 11px; color: var(--text-muted);
+}
+
+.kcard-act-icon.has-task i    { color: var(--warning); }
+.kcard-act-icon.has-email i   { color: var(--info); }
+.kcard-act-icon.has-note i    { color: var(--accent); }
+.kcard-act-icon.has-call i    { color: var(--success); }
+
+.kcard-act-icon .act-count { font-size: 10px; }
+
+/* Linha 6 — Tags / Labels do card */
+.kcard-labels {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.kcard-label {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--bg-overlay);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+/* =========================================
+   9. Card Expandido — Modo Detalhe no Board
+   ========================================= */
+.kanban-card.expanded {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
+}
+
+.kcard-detail-body {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    animation: card-in 0.15s ease both;
+}
+
+.kanban-card.expanded .kcard-detail-body { display: flex; }
+
+.kcard-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.kcard-detail-key {
+    width: 80px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.kcard-detail-val {
+    color: var(--text-primary);
+    flex: 1;
+}
+
+/* Notas inline */
+.kcard-note {
+    background: var(--bg-overlay);
+    border-left: 2px solid var(--border-strong);
+    padding: 8px 12px;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Próxima ação */
+.kcard-next-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.kcard-next-action i { color: var(--primary); }
+
+/* =========================================
+   10. Footer da Coluna — Adicionar Card
+   ========================================= */
+.kanban-col-footer {
+    flex-shrink: 0;
+    padding: 8px 0 0 4px;
+}
+
+.btn-add-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-add-card:hover {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+/* =========================================
+   11. Coluna — Adicionar Novo Estágio
+   ========================================= */
+.kanban-column-add {
+    width: 40px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    align-self: flex-start;
+    height: 48px;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.kanban-column-add:hover {
+    background: var(--bg-surface);
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+    width: 140px;
+}
+
+.kanban-column-add .add-label {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transition: max-width 0.2s ease, opacity 0.2s ease;
+    margin-left: 0;
+}
+
+.kanban-column-add:hover .add-label {
+    max-width: 100px;
+    opacity: 1;
+    margin-left: 8px;
+}
+
+/* =========================================
+   12. Quick Add Form — Criar Card Inline
+   ========================================= */
+.kanban-quick-add {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: card-in 0.15s ease both;
+}
+
+.quick-add-input {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+    resize: none;
+}
+
+.quick-add-input::placeholder { color: var(--text-muted); }
+
+.quick-add-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-add-footer .btn-primary { padding: 6px 12px; font-size: 12px; }
+.quick-add-footer .btn-ghost   { padding: 6px 12px; font-size: 12px; color: var(--text-muted); }
+.quick-add-footer .btn-ghost:hover { color: var(--text-primary); }
+
+/* =========================================
+   13. Painel Lateral de Detalhes do Deal
+   ========================================= */
+.deal-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 480px;
+    background: var(--bg-surface);
+    border-left: 1px solid var(--border);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    transition: transform 0.25s ease-in-out;
+}
+
+.deal-drawer.open { transform: translateX(0); }
+
+.drawer-header {
+    padding: 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.drawer-stage-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    margin-top: 4px; flex-shrink: 0;
+}
+
+.drawer-title-group { flex: 1; min-width: 0; }
+
+.drawer-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.drawer-company { font-size: 13px; color: var(--text-secondary); }
+
+.drawer-close {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: none; border-radius: var(--radius-sm);
+    color: var(--text-muted); cursor: pointer; font-size: 14px;
+}
+
+.drawer-close:hover { background: var(--bg-overlay); color: var(--text-primary); }
+
+/* Seção de valor em destaque */
+.drawer-value-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.drawer-val-item {
+    padding: 16px 24px;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 4px;
+}
+
+.drawer-val-item:last-child { border-right: none; }
+
+.drawer-val-label { font-size: 11px; color: var(--text-muted); }
+.drawer-val-value { font-family: var(--font-mono); font-size: 16px; font-weight: 500; color: var(--text-primary); }
+
+/* Tabs do drawer */
+.drawer-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    padding: 0 16px;
+}
+
+.drawer-tab {
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: -1px;
+}
+
+.drawer-tab:hover { color: var(--text-primary); }
+.drawer-tab.active { color: var(--text-primary); border-bottom-color: var(--text-primary); font-weight: 600;}
+
+/* Corpo com scroll do drawer */
+.drawer-body { flex: 1; overflow-y: auto; padding: 24px; scrollbar-width: thin; }
+
+/* Campo de info do deal */
+.deal-field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 16px; }
+.deal-field-label { font-size: 12px; color: var(--text-muted); }
+.deal-field-value { font-size: 13px; color: var(--text-primary); font-weight: 500; }
+.deal-field-value.mono { font-family: var(--font-mono); }
+.deal-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; }
+
+/* Footer de ações do drawer */
+.drawer-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-overlay);
+    display: flex; justify-content: flex-end; gap: 12px; flex-shrink: 0;
+}
+
+/* =========================================
+   14. Filtro Avançado — Dropdown
+   ========================================= */
+.filter-dropdown {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 320px;
+    overflow: hidden;
+    animation: card-in 0.15s ease both;
+}
+
+.filter-dropdown-header {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    font-size: 13px; font-weight: 600; color: var(--text-primary);
+    display: flex; justify-content: space-between;
+}
+
+.filter-clear { font-size: 12px; font-weight: 400; color: var(--text-muted); cursor: pointer; }
+.filter-clear:hover { color: var(--text-primary); }
+
+.filter-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.filter-section-title { font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+
+.filter-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-option {
+    padding: 4px 10px; background: var(--bg-overlay); border: 1px solid var(--border);
+    border-radius: 4px; font-size: 12px; color: var(--text-secondary); cursor: pointer; transition: var(--transition-fast);
+}
+.filter-option:hover { background: var(--bg-hover); color: var(--text-primary); }
+.filter-option.selected { background: var(--text-primary); border-color: var(--text-primary); color: var(--bg-base); font-weight: 500; }
+
+.filter-dropdown-footer { padding: 12px 16px; display: flex; justify-content: flex-end; gap: 8px; background: var(--bg-overlay); }
+
+/* =========================================
+   15. Estados da Coluna — Collapsed
+   ========================================= */
+.kanban-column.collapsed { width: 48px; transition: width 0.2s ease; border: transparent; background: transparent; }
+.kanban-column.collapsed .kanban-col-stats,
+.kanban-column.collapsed .kanban-col-conversion,
+.kanban-column.collapsed .kanban-cards,
+.kanban-column.collapsed .kanban-col-footer,
+.kanban-column.collapsed .col-title { display: none; }
+
+.kanban-column.collapsed .kanban-col-header {
+    flex-direction: column; align-items: center; justify-content: center;
+    padding: 16px 0; border-bottom: none; height: 100%; cursor: pointer;
+}
+
+.col-collapsed-label {
+    display: none; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
+    font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 16px;
+}
+
+.kanban-column.collapsed .col-collapsed-label { display: block; }
+.kanban-column.collapsed .col-count { writing-mode: initial; margin-top: 16px; }
+
+/* =========================================
+   16. Responsividade
+   ========================================= */
+@media (max-width: 900px) {
+    .deal-drawer { width: 100%; border-left: none; border-top: 1px solid var(--border-strong); top: auto; height: 80vh; transform: translateY(100%); border-radius: var(--radius-xl) var(--radius-xl) 0 0; }
+    .deal-drawer.open { transform: translateY(0); }
+    .kanban-column { width: 260px; }
+}
+
+/* =========================================
+   17. Animações Adicionais (Sem Neon)
+   ========================================= */
+/* Card novo — highlight de criação */
+@keyframes card-flash {
+    0%   { background: var(--primary-dim); border-color: var(--primary); }
+    100% { background: var(--bg-surface); border-color: var(--border); }
+}
+.kanban-card.just-created { animation: card-flash 1s ease forwards, card-in 0.2s ease both; }
+
+/* Erro visual */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-4px); }
+    75%      { transform: translateX(4px); }
+}
+.kanban-card.error { animation: shake 0.3s ease; border-color: var(--danger); }
+
+/* Move Success (sutil) */
+@keyframes drop-success {
+    0%   { border-color: var(--success); background: var(--success-bg); }
+    100% { border-color: var(--border); background: var(--bg-surface); }
+}
+.kanban-card.drop-success { animation: drop-success 0.6s ease forwards; }

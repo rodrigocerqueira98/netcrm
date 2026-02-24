@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Funil de Vendas Inteligente | NETCRM PRO">
+    <meta name="theme-color" content="#F3F4F6">
+    
+    <title>Funil de Vendas | NETCRM PRO</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/kanban.css">
+</head>
+<body>
+
+    <aside class="sidebar" role="navigation" aria-label="Navegação principal">
+        
+        <div class="logo" aria-label="NETCRM PRO">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <span>NETCRM PRO</span>
+        </div>
+        
+        <div class="sidebar-status" role="status" aria-live="polite">
+            Ambiente Estável
+        </div>
+        
+        <nav aria-label="Menu do sistema">
+            <div class="nav-group-label">Visão Geral</div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-chart-pie" aria-hidden="true"></i> 
+                        <span>Painel de Controle</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="funil.html" aria-current="page">
+                        <i class="fa-solid fa-bars-staggered" aria-hidden="true"></i> 
+                        <span>Funil de Vendas</span> 
+                        <span class="nav-badge">14</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html">
+                        <i class="fa-solid fa-users" aria-hidden="true"></i> 
+                        <span>Base de Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="analytics.html">
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i> 
+                        <span>Análise de Negócios</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-group-label">Operação & Infraestrutura</div>
+            <ul class="nav-links">
+                <li>
+                    <a href="monitoramento.html">
+                        <i class="fa-solid fa-server" aria-hidden="true"></i> 
+                        <span>Monitoramento de Rede</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="financeiro.html">
+                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> 
+                        <span>Faturamento</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-sliders" aria-hidden="true"></i> 
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="sidebar-user" role="complementary">
+                <div class="user-avatar" aria-hidden="true">RO</div>
+                <div class="user-info">
+                    <div class="user-name">Rodrigo</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" role="main">
+        
+        <header role="banner" style="border-bottom: none; padding-bottom: 0;">
+            <div class="header-left">
+                <h1>Funil de Vendas</h1>
+                <div class="header-breadcrumb">Visão Geral / <span>Funil de Vendas</span></div>
+            </div>
+            
+            <div class="header-right pipeline-toolbar">
+                
+                <div class="pipeline-summary-strip" id="pipeline-summary">
+                    <i class="fa-solid fa-chart-waterfall" style="color: var(--primaria);"></i>
+                    <strong>Calculando Forecast...</strong>
+                </div>
+                
+                <div class="toolbar-actions">
+                    <div class="search-wrap">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="board-search" placeholder="Buscar negócios..." aria-label="Buscar negócios no funil">
+                    </div>
+                    
+                    <button type="button" class="btn-ghost" id="btn-filter" title="Filtros Avançados">
+                        <i class="fa-solid fa-filter"></i>
+                        <span id="filter-badge" class="filter-badge" style="display:none;">0</span>
+                    </button>
+                    <div id="filter-panel" class="filter-panel" style="display:none;"></div>
+                    
+                    <button type="button" class="btn-ghost" id="btn-sort" title="Ordenar Negócios">
+                        <i class="fa-solid fa-sort"></i>
+                    </button>
+                    
+                    <button type="button" class="btn-ghost" id="btn-undo" title="Desfazer Ação (Ctrl+Z)"><i class="fa-solid fa-undo"></i></button>
+                    <button type="button" class="btn-ghost" id="btn-redo" title="Refazer Ação (Ctrl+Y)"><i class="fa-solid fa-redo"></i></button>
+                    
+                    <button type="button" class="btn-primary" id="btn-new-deal-kanban">
+                        <i class="fa-solid fa-plus"></i> Novo Negócio
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div id="multiselect-bar" class="multiselect-bar" style="display:none; margin: 0 28px 12px;">
+            <span id="ms-count" style="font-weight: 600; color: var(--texto-principal);">0 selecionado(s)</span>
+            <button type="button" class="btn-ghost" id="ms-move"><i class="fa-solid fa-arrow-right"></i> Mover</button>
+            <button type="button" class="btn-danger" id="ms-delete" style="padding: 6px 12px; font-size: 12px;"><i class="fa-solid fa-trash"></i> Excluir</button>
+            <button type="button" class="btn-ghost" id="ms-clear">Limpar Seleção</button>
+        </div>
+
+        <section class="content-area kanban-area" style="padding-top: 12px;">
+            <div id="kanban-board" class="kanban-board-inner">
+                </div>
+        </section>
+        
+    </main>
+
+    <script src="js/mockData.js"></script>
+    
+    <script src="js/intelligence/dataModel.js"></script>
+    <script src="js/intelligence/predictiveEngine.js"></script>
+    
+    <script src="js/dashboard.js"></script> <script src="js/app.js"></script> <script src="js/kanban.js"></script>
+
+</body>
+</html>

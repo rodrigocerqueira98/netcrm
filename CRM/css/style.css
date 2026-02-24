@@ -1,0 +1,1133 @@
+/* =====================================================
+   SISTEMA DE DESIGN — Ferramenta de Gestão
+   Tema claro corporativo · SaaS moderno e limpo
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap');
+
+/* =========================================
+   1. Variáveis de Design (Tokens)
+   ========================================= */
+:root {
+    /* Cores Principais - Sóbrias e Profissionais */
+    --primaria:          #2563EB; /* Azul Royal corporativo */
+    --primaria-hover:    #1D4ED8;
+    --primaria-suave:    #EFF6FF; /* Fundo azul bem leve */
+    
+    --destaque:          #6366F1; /* Índigo */
+    --destaque-suave:    #EEF2FF;
+    
+    /* Cores de Feedback (Status) */
+    --sucesso:           #059669; /* Verde Esmeralda */
+    --sucesso-fundo:     #D1FAE5;
+    
+    --alerta:            #DC2626; /* Vermelho claro */
+    --alerta-fundo:      #FEE2E2;
+    
+    --aviso:             #D97706; /* Laranja/Âmbar */
+    --aviso-fundo:       #FEF3C7;
+    
+    --info:              #0284C7; /* Azul claro */
+    --info-fundo:        #E0F2FE;
+
+    /* Cores de Fundo e Superfície (Tema Claro) */
+    --fundo-base:        #F3F4F6; /* Cinza muito claro para o fundo da página */
+    --fundo-painel:      #FFFFFF; /* Branco puro para os cartões/painéis */
+    --fundo-elevado:     #FFFFFF; /* Branco para elementos flutuantes (modais) */
+    --fundo-sobreposicao:#F9FAFB; /* Cinza gelo para cabeçalhos de tabela */
+    --fundo-hover:       #F3F4F6; /* Cinza claro para hover em listas */
+    --fundo-lateral:     #FFFFFF; /* Fundo do menu lateral */
+
+    /* Bordas e Divisórias */
+    --borda:             #E5E7EB; /* Cinza suave */
+    --borda-foco:        #93C5FD; /* Azul claro para foco */
+    --borda-forte:       #D1D5DB; /* Cinza médio para divisórias principais */
+
+    /* Tipografia (Alto Contraste) */
+    --texto-principal:   #111827; /* Quase preto para máxima legibilidade */
+    --texto-secundario:  #4B5563; /* Cinza chumbo para textos de apoio */
+    --texto-discreto:    #6B7280; /* Cinza médio para rótulos/legendas */
+    --texto-destaque:    var(--primaria);
+
+    /* Sombras (Realistas e Difusas) */
+    --sombra-leve:       0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --sombra-media:      0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --sombra-pesada:     0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+    --sombra-modal:      0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Dimensões */
+    --largura-lateral:   260px;
+    --raio-p:            4px;
+    --raio-m:            8px;
+    --raio-g:            12px;
+    --raio-xg:           16px;
+
+    /* Fontes */
+    --fonte-padrao:      'Inter', system-ui, sans-serif;
+    --fonte-titulos:     'Inter', system-ui, sans-serif;
+    --fonte-numeros:     'Roboto Mono', monospace;
+
+    /* Animações */
+    --transicao:         all 0.2s ease-in-out;
+    --transicao-rapida:  all 0.1s ease-in-out;
+}
+
+/* Aliases para Kanban e outros módulos (mesmo tema) */
+:root {
+    --bg-base:       var(--fundo-base);
+    --bg-surface:    var(--fundo-painel);
+    --bg-raised:     var(--fundo-painel);
+    --bg-overlay:    var(--fundo-sobreposicao);
+    --bg-hover:      var(--fundo-hover);
+    --border:        var(--borda);
+    --border-strong: var(--borda-forte);
+    --border-accent: var(--borda-foco);
+    --text-primary:  var(--texto-principal);
+    --text-secondary: var(--texto-secundario);
+    --text-muted:    var(--texto-discreto);
+    --font-mono:     var(--fonte-numeros);
+    --radius-sm:     var(--raio-p);
+    --radius-md:     var(--raio-m);
+    --radius-lg:     var(--raio-g);
+    --radius-xl:     var(--raio-xg);
+    --transition:    var(--transicao);
+    --transition-fast: var(--transicao-rapida);
+    --primary:       var(--primaria);
+    --success:       var(--sucesso);
+    --danger:        var(--alerta);
+    --warning:       var(--aviso);
+    --info:          var(--info);
+    --accent:        var(--destaque);
+    --shadow-md:     var(--sombra-media);
+    --shadow-lg:     var(--sombra-pesada);
+}
+
+/* =========================================
+   2. Reset e Configurações Base
+   ========================================= */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 14px;
+}
+
+body {
+    font-family: var(--fonte-padrao);
+    background-color: var(--fundo-base);
+    color: var(--texto-principal);
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Barra de rolagem discreta */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: #D1D5DB;
+    border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+}
+
+/* =========================================
+   3. Menu Lateral (Sidebar)
+   ========================================= */
+.sidebar {
+    width: var(--largura-lateral);
+    background: var(--fundo-lateral);
+    border-right: 1px solid var(--borda);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 100;
+}
+
+.logo {
+    padding: 24px 20px;
+    font-family: var(--fonte-titulos);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--texto-principal);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--borda);
+    margin-bottom: 8px;
+}
+
+.logo i {
+    color: var(--primaria);
+    font-size: 20px;
+}
+
+.sidebar-status {
+    margin: 0 16px 16px;
+    padding: 8px 12px;
+    background: var(--sucesso-fundo);
+    border: 1px solid rgba(5, 150, 105, 0.2);
+    border-radius: var(--raio-p);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sucesso);
+}
+
+.sidebar-status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sucesso);
+    flex-shrink: 0;
+}
+
+.nav-group-label {
+    padding: 16px 20px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--texto-discreto);
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0 12px;
+}
+
+.nav-links li {
+    margin-bottom: 2px;
+}
+
+.nav-links li a {
+    padding: 10px 12px;
+    color: var(--texto-secundario);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    font-size: 13.5px;
+    font-weight: 500;
+    border-radius: var(--raio-m);
+    transition: var(--transicao);
+}
+
+.nav-links li a i {
+    width: 18px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--texto-discreto);
+    transition: var(--transicao);
+}
+
+/* Indicador de notificações no menu */
+.nav-links li a .nav-badge {
+    margin-left: auto;
+    background: var(--alerta-fundo);
+    color: var(--alerta);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.nav-links li:hover a {
+    background: var(--fundo-hover);
+    color: var(--texto-principal);
+}
+
+.nav-links li:hover a i {
+    color: var(--primaria);
+}
+
+.nav-links li.active a {
+    color: var(--primaria);
+    background: var(--primaria-suave);
+    font-weight: 600;
+}
+
+.nav-links li.active a i {
+    color: var(--primaria);
+}
+
+/* Rodapé do Menu (Perfil de Usuário) */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 16px;
+    border-top: 1px solid var(--borda);
+}
+
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: var(--raio-m);
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.sidebar-user:hover {
+    background: var(--fundo-hover);
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primaria);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    flex-shrink: 0;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-info .user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texto-principal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-info .user-role {
+    font-size: 12px;
+    color: var(--texto-discreto);
+}
+
+/* =========================================
+   4. Área de Conteúdo Principal
+   ========================================= */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+/* =========================================
+   5. Cabeçalho Superior (Header)
+   ========================================= */
+header,
+.app-header,
+.pipeline-header {
+    background: var(--fundo-painel);
+    border-bottom: 1px solid var(--borda);
+    padding: 0 28px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-shrink: 0;
+    z-index: 50;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+header h1 {
+    font-family: var(--fonte-titulos);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--texto-principal);
+    letter-spacing: -0.3px;
+    line-height: 1;
+}
+
+.header-breadcrumb {
+    font-size: 12px;
+    color: var(--texto-discreto);
+}
+
+.header-breadcrumb span {
+    color: var(--primaria);
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Campo de Busca Global */
+.global-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--fundo-base);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-m);
+    padding: 8px 14px;
+    width: 260px;
+    transition: var(--transicao);
+}
+
+.global-search:focus-within {
+    border-color: var(--primaria);
+    background: var(--fundo-painel);
+    box-shadow: 0 0 0 3px var(--primaria-suave);
+}
+
+.global-search i {
+    color: var(--texto-discreto);
+    font-size: 13px;
+}
+
+.global-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--texto-principal);
+    font-family: var(--fonte-padrao);
+    font-size: 13px;
+    width: 100%;
+}
+
+.global-search input::placeholder {
+    color: var(--texto-discreto);
+}
+
+/* Ícones de Ação no Cabeçalho */
+.header-action {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--raio-m);
+    background: var(--fundo-painel);
+    border: 1px solid var(--borda);
+    color: var(--texto-secundario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transicao);
+    position: relative;
+    font-size: 15px;
+}
+
+.header-action:hover {
+    background: var(--fundo-hover);
+    color: var(--primaria);
+    border-color: var(--borda-forte);
+}
+
+.header-action .badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    background: var(--alerta);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--fundo-painel);
+}
+
+/* =========================================
+   6. Área de Rolagem do Conteúdo
+   ========================================= */
+.content-area {
+    flex: 1;
+    padding: 24px 28px;
+    overflow-y: auto;
+}
+
+/* =========================================
+   7. Painéis de Indicadores (KPI Cards)
+   ========================================= */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: var(--fundo-painel);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-g);
+    padding: 20px;
+    box-shadow: var(--sombra-leve);
+    transition: var(--transicao);
+}
+
+.kpi-card:hover {
+    box-shadow: var(--sombra-media);
+    border-color: var(--borda-forte);
+    transform: translateY(-2px);
+}
+
+.kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.kpi-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texto-secundario);
+}
+
+.kpi-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--raio-m);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+/* Variações de cor dos ícones */
+.kpi-icon.cyan   { background: var(--primaria-suave); color: var(--primaria); }
+.kpi-icon.green  { background: var(--sucesso-fundo); color: var(--sucesso); }
+.kpi-icon.red    { background: var(--alerta-fundo); color: var(--alerta); }
+.kpi-icon.amber  { background: var(--aviso-fundo); color: var(--aviso); }
+.kpi-icon.blue   { background: var(--info-fundo); color: var(--info); }
+.kpi-icon.purple { background: var(--destaque-suave); color: var(--destaque); }
+
+.kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--texto-principal);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.kpi-value.mono {
+    font-family: var(--fonte-numeros);
+}
+
+.kpi-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.kpi-delta.up   { background: var(--sucesso-fundo); color: var(--sucesso); }
+.kpi-delta.down { background: var(--alerta-fundo); color: var(--alerta); }
+
+/* =========================================
+   8. Sistema de Layout em Grades (Gráficos)
+   ========================================= */
+.section-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.section-grid.full {
+    grid-template-columns: 1fr;
+}
+
+/* =========================================
+   9. Painéis Base (Cards grandes)
+   ========================================= */
+.panel {
+    background: var(--fundo-painel);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-g);
+    box-shadow: var(--sombra-leve);
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--borda);
+}
+
+.panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--texto-principal);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.panel-title i {
+    color: var(--texto-discreto);
+}
+
+.panel-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.panel-body {
+    padding: 20px;
+}
+
+.panel-body.no-pad {
+    padding: 0;
+}
+
+/* =========================================
+   10. Tabelas de Dados (Data Grid)
+   ========================================= */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.data-table thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--texto-secundario);
+    background: var(--fundo-sobreposicao);
+    border-bottom: 1px solid var(--borda);
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid var(--borda);
+    transition: background-color 0.15s;
+}
+
+.data-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background-color: var(--fundo-hover);
+}
+
+.data-table tbody td {
+    padding: 14px 16px;
+    color: var(--texto-secundario);
+    vertical-align: middle;
+}
+
+.data-table tbody td.td-primary {
+    color: var(--texto-principal);
+    font-weight: 500;
+}
+
+.data-table tbody td.td-mono {
+    font-family: var(--fonte-numeros);
+    font-size: 13px;
+    color: var(--texto-principal);
+}
+
+/* Componente de Contato na Tabela */
+.cell-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cell-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--primaria-suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primaria);
+    flex-shrink: 0;
+}
+
+.cell-name {
+    font-weight: 500;
+    color: var(--texto-principal);
+    font-size: 14px;
+}
+
+.cell-sub {
+    font-size: 12px;
+    color: var(--texto-discreto);
+}
+
+/* =========================================
+   11. Rótulos de Status (Badges)
+   ========================================= */
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+/* Variações de Status */
+.status.ativo, .status.concluido, .status.ganho, .status.status-ativo {
+    background: var(--sucesso-fundo);
+    color: var(--sucesso);
+}
+.status.ativo::before, .status.concluido::before, .status.ganho::before, .status.status-ativo::before {
+    background: var(--sucesso);
+}
+
+.status.pendente, .status.negociacao {
+    background: var(--aviso-fundo);
+    color: var(--aviso);
+}
+.status.pendente::before, .status.negociacao::before {
+    background: var(--aviso);
+}
+
+.status.cancelado, .status.perdido, .status.bloqueado, .status.status-bloqueado, .status.status-cancelado {
+    background: var(--alerta-fundo);
+    color: var(--alerta);
+}
+.status.cancelado::before, .status.perdido::before, .status.bloqueado::before, .status.status-bloqueado::before, .status.status-cancelado::before {
+    background: var(--alerta);
+}
+
+.status.proposta, .status.qualificado {
+    background: var(--info-fundo);
+    color: var(--info);
+}
+.status.proposta::before, .status.qualificado::before {
+    background: var(--info);
+}
+
+.status.novo, .status.contato {
+    background: var(--destaque-suave);
+    color: var(--destaque);
+}
+.status.novo::before, .status.contato::before {
+    background: var(--destaque);
+}
+
+/* Níveis de Prioridade */
+.priority {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.priority.alta  { color: var(--alerta); background: var(--alerta-fundo); }
+.priority.media { color: var(--aviso); background: var(--aviso-fundo); }
+.priority.baixa { color: var(--sucesso); background: var(--sucesso-fundo); }
+
+/* =========================================
+   12. Botões e Ações
+   ========================================= */
+
+/* Botão Principal de Chamada para Ação */
+.btn-primary, .btn-novo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--primaria);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--raio-m);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-primary:hover, .btn-novo:hover {
+    background: var(--primaria-hover);
+    box-shadow: var(--sombra-media);
+    transform: translateY(-1px);
+}
+
+/* Botão Secundário (Apoio) */
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: var(--fundo-painel);
+    color: var(--texto-principal);
+    border: 1px solid var(--borda-forte);
+    border-radius: var(--raio-m);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-secondary:hover {
+    background: var(--fundo-hover);
+}
+
+/* Botão Transparente (Ghost) */
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: transparent;
+    color: var(--texto-secundario);
+    border: none;
+    border-radius: var(--raio-m);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-ghost:hover {
+    background: var(--fundo-hover);
+    color: var(--texto-principal);
+}
+
+/* Botão Perigo / Exclusão */
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--alerta);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--raio-m);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.btn-danger:hover {
+    background: #B91C1C;
+}
+
+/* =========================================
+   13. Formulários e Inputs
+   ========================================= */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--texto-principal);
+}
+
+.form-control, select.form-control, textarea.form-control {
+    background: var(--fundo-painel);
+    border: 1px solid var(--borda-forte);
+    border-radius: var(--raio-m);
+    color: var(--texto-principal);
+    font-family: var(--fonte-padrao);
+    font-size: 14px;
+    padding: 10px 14px;
+    width: 100%;
+    outline: none;
+    transition: var(--transicao);
+}
+
+.form-control:focus {
+    border-color: var(--primaria);
+    box-shadow: 0 0 0 3px var(--primaria-suave);
+}
+
+.form-control::placeholder {
+    color: var(--texto-discreto);
+}
+
+select.form-control {
+    cursor: pointer;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* =========================================
+   14. Modal Central (Caixa de Diálogo)
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.2s ease;
+}
+
+.modal {
+    background: var(--fundo-painel);
+    border-radius: var(--raio-xg);
+    width: 600px;
+    max-width: 90vw;
+    box-shadow: var(--sombra-modal);
+    animation: modal-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--borda);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--texto-principal);
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    background: var(--fundo-sobreposicao);
+    border-top: 1px solid var(--borda);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-radius: 0 0 var(--raio-xg) var(--raio-xg);
+}
+
+/* Animações Modal */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* =========================================
+   15. Componentes Específicos do Dashboard
+   ========================================= */
+
+/* Fita de Estatísticas de Resumo */
+.stat-strip {
+    display: flex;
+    background: var(--fundo-painel);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-m);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.stat-strip-item {
+    flex: 1;
+    padding: 16px 24px;
+    border-right: 1px solid var(--borda);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-strip-label {
+    font-size: 11px;
+    color: var(--texto-discreto);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-strip-value {
+    font-family: var(--fonte-numeros);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--texto-principal);
+}
+
+/* Funil de Vendas Visual */
+.funnel-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.funnel-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.funnel-label {
+    width: 100px;
+    color: var(--texto-secundario);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.funnel-track {
+    flex: 1;
+    height: 12px;
+    background: var(--fundo-base);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.funnel-fill {
+    height: 100%;
+    background: var(--primaria);
+    border-radius: 6px;
+    transition: width 0.8s ease;
+}
+
+.funnel-count {
+    width: 40px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--texto-principal);
+}
+
+/* Feed de Atividades (Linha do Tempo) */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 6px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--borda);
+}
+
+.timeline-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    position: relative;
+}
+
+.timeline-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--fundo-painel);
+    border: 2px solid var(--borda-forte);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--texto-secundario);
+    z-index: 1;
+}
+
+.timeline-body {
+    flex: 1;
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.timeline-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texto-principal);
+}
+
+.timeline-time {
+    font-size: 12px;
+    color: var(--texto-discreto);
+}
+
+.timeline-desc {
+    font-size: 13px;
+    color: var(--texto-secundario);
+    line-height: 1.5;
+}
+
+/* =========================================
+   16. Utilitários (Classes de Apoio)
+   ========================================= */
+.texto-primario { color: var(--texto-principal); }
+.texto-secundario { color: var(--texto-secundario); }
+.texto-sucesso { color: var(--sucesso); }
+.texto-alerta { color: var(--alerta); }
+.texto-aviso { color: var(--aviso); }
+
+.peso-600 { font-weight: 600; }
+.flex { display: flex; }
+.espaco-8 { gap: 8px; }
+
+/* Para os gráficos canvas desenhados por JS */
+canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+

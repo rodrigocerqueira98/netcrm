@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Monitoramento de Infraestrutura - Análise de desempenho, disponibilidade e saúde da rede">
+    <meta name="theme-color" content="#F3F4F6">
+    
+    <title>Monitoramento de Rede | NETCRM PRO</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Ajustes específicos do layout de monitoramento */
+        .stat-strip { 
+            display: flex; background: var(--fundo-painel); border: 1px solid var(--borda); 
+            border-radius: var(--raio-m); margin-bottom: 24px; overflow: hidden; 
+        }
+        .stat-strip-item { 
+            flex: 1; padding: 16px 24px; border-right: 1px solid var(--borda); 
+            display: flex; flex-direction: column; gap: 4px; 
+        }
+        .stat-strip-item:last-child { border-right: none; }
+        .stat-strip-label { 
+            font-size: 11px; color: var(--texto-discreto); text-transform: uppercase; letter-spacing: 0.5px; 
+        }
+        .stat-strip-value { 
+            font-family: var(--fonte-numeros); font-size: 18px; font-weight: 700; color: var(--texto-principal); 
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" role="navigation" aria-label="Navegação principal">
+        
+        <div class="logo" aria-label="NETCRM PRO">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <span>NETCRM PRO</span>
+        </div>
+
+        <div class="sidebar-status" role="status" aria-live="polite">
+            Sistemas Operacionais
+        </div>
+
+        <nav aria-label="Menu do sistema">
+            <div class="nav-group-label">Visão Geral</div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-chart-pie" aria-hidden="true"></i>
+                        <span>Painel de Controle</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="funil.html">
+                        <i class="fa-solid fa-bars-staggered" aria-hidden="true"></i>
+                        <span>Pipeline de Vendas</span>
+                        <span class="nav-badge" aria-label="14 novos negócios">14</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="clientes.html">
+                        <i class="fa-solid fa-users" aria-hidden="true"></i>
+                        <span>Base de Clientes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="analytics.html">
+                        <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+                        <span>Análise de Negócios</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="nav-group-label">Operação & Infraestrutura</div>
+            <ul class="nav-links">
+                <li class="active">
+                    <a href="monitoramento.html" aria-current="page">
+                        <i class="fa-solid fa-server" aria-hidden="true"></i>
+                        <span>Monitoramento de Rede</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="financeiro.html">
+                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+                        <span>Faturamento</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+                        <span>Configurações</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-user" role="complementary" aria-label="Informações do usuário">
+                <div class="user-avatar" aria-hidden="true">RO</div>
+                <div class="user-info">
+                    <div class="user-name">Rodrigo</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" role="main">
+        
+        <header role="banner">
+            <div class="header-left">
+                <h1>Monitoramento de Infraestrutura</h1>
+                <div class="header-breadcrumb">
+                    Operação & Infraestrutura / <span>Saúde da Rede</span>
+                </div>
+            </div>
+
+            <div class="header-right">
+                
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <label for="region-filter" style="font-size: 12px; color: var(--texto-secundario); font-weight: 500;">Região:</label>
+                    <select id="region-filter" style="
+                        background: var(--fundo-sobreposicao);
+                        border: 1px solid var(--borda-forte);
+                        color: var(--texto-principal);
+                        padding: 6px 10px;
+                        border-radius: var(--raio-p);
+                        font-size: 13px;
+                        font-family: var(--fonte-padrao);
+                        cursor: pointer;
+                        outline: none;
+                    ">
+                        <option value="sp">SP - Capital</option>
+                        <option value="sp_interior">SP - Interior</option>
+                        <option value="rj">RJ / ES</option>
+                        <option value="mg">MG / DF</option>
+                        <option value="sc">SC / RS</option>
+                    </select>
+                </div>
+
+                <button type="button" class="header-action" aria-label="Alertas críticos (2 ativos)">
+                    <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                    <span class="badge" style="background: var(--alerta);">2</span>
+                </button>
+
+            </div>
+        </header>
+
+        <section class="content-area" role="region" aria-label="Área de monitoramento">
+            
+            <div class="stat-strip animate-up stagger-1" role="region" aria-label="Status geral da infraestrutura">
+                
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Disponibilidade (Uptime)</span>
+                    <span class="stat-strip-value" style="color: var(--sucesso);">99.98%</span>
+                    <span class="stat-strip-sub">Meta SLA: 99.9%</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Latência Média</span>
+                    <span class="stat-strip-value mono">14.2ms</span>
+                    <span class="stat-strip-sub" style="color: var(--primaria);">Desempenho Ideal</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Perda de Pacotes</span>
+                    <span class="stat-strip-value" style="color: var(--sucesso);">0.02%</span>
+                    <span class="stat-strip-sub">Dentro do Padrão ✓</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Nós Ativos</span>
+                    <span class="stat-strip-value">47 / 50</span>
+                    <span class="stat-strip-sub" style="color: var(--aviso);">3 Conexões Inativas</span>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                
+                <div class="panel animate-up">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
+                            Análise de Desempenho
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                            <div style="padding: 10px; background: var(--sucesso-fundo); border: 1px solid rgba(5,150,105,0.2); border-radius: var(--raio-p); color: var(--sucesso); font-weight: 500;">
+                                ✓ A latência da rede está 4.8ms abaixo da média histórica.
+                            </div>
+                            <div style="padding: 10px; background: var(--aviso-fundo); border: 1px solid rgba(217,119,6,0.2); border-radius: var(--raio-p); color: var(--aviso); font-weight: 500;">
+                                ⚠ 3 pontos de conexão inativos na região Sul — Equipe investigando.
+                            </div>
+                            <div style="padding: 10px; background: var(--info-fundo); border: 1px solid rgba(2,132,199,0.2); border-radius: var(--raio-p); color: var(--info); font-weight: 500;">
+                                ℹ Carga de processamento em tendência de alta. Monitoramento preventivo ativado.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel animate-up">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>
+                            Ações Recomendadas do Sistema
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: var(--texto-secundario);">
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: var(--primaria); font-weight: 700;">1.</span>
+                                <span>Escalonar a infraestrutura para o horário de pico (Carga máxima esperada entre 16h e 20h).</span>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: var(--primaria); font-weight: 700;">2.</span>
+                                <span>Investigar atrasos de resolução de DNS nos servidores da região Sudeste.</span>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <span style="color: var(--primaria); font-weight: 700;">3.</span>
+                                <span>Agendar janela de manutenção para os nós da região Sul — 3 equipamentos aguardam atualização de firmware.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-grid" role="region" aria-label="Métricas de hardware e rede">
+                
+                <div class="kpi-card animate-up stagger-2">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Uso de Banda</span>
+                        <div class="kpi-icon cyan" aria-hidden="true">
+                            <i class="fa-solid fa-signal"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value mono">68.4%</div>
+                    <div class="kpi-delta up">
+                        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i> 2.1%
+                    </div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-3">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Resolução DNS</span>
+                        <div class="kpi-icon blue" aria-hidden="true">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value mono">98.6ms</div>
+                    <div class="kpi-delta down">
+                        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> 1.2%
+                    </div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-4">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Carga de Processador (CPU)</span>
+                        <div class="kpi-icon amber" aria-hidden="true">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value mono">42.1%</div>
+                    <div class="kpi-delta down">
+                        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i> 3.2%
+                    </div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-5">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Consumo de Memória</span>
+                        <div class="kpi-icon green" aria-hidden="true">
+                            <i class="fa-solid fa-memory"></i>
+                        </div>
+                    </div>
+                    <div class="kpi-value mono">55.7%</div>
+                    <div style="font-size: 12px; color: var(--texto-discreto); font-family: var(--fonte-numeros);">
+                        7.2 GB / 12.8 GB
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-grid" role="region" aria-label="Gráficos de análise">
+                
+                <div class="panel animate-up stagger-6">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i>
+                            Análise de Tráfego de Rede
+                        </div>
+                        <div class="panel-actions">
+                            <button type="button" class="btn-ghost active" style="font-size: 12px; padding: 4px 8px;">Tempo Real</button>
+                            <button type="button" class="btn-ghost" style="font-size: 12px; padding: 4px 8px;">Histórico</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="trafficChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel animate-up stagger-6">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
+                            Disponibilidade Regional
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div style="display: grid; gap: 12px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border: 1px solid var(--borda); border-radius: var(--raio-p);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-circle" style="color: var(--sucesso); font-size: 10px;"></i>
+                                    <span style="font-size: 13px; font-weight: 500; color: var(--texto-principal);">SP Capital — 12 servidores</span>
+                                </div>
+                                <span style="font-size: 12px; color: var(--texto-secundario); font-family: var(--fonte-numeros);">12/12 online</span>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border: 1px solid var(--borda); border-radius: var(--raio-p);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-circle" style="color: var(--sucesso); font-size: 10px;"></i>
+                                    <span style="font-size: 13px; font-weight: 500; color: var(--texto-principal);">SP Interior — 8 servidores</span>
+                                </div>
+                                <span style="font-size: 12px; color: var(--texto-secundario); font-family: var(--fonte-numeros);">8/8 online</span>
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border: 1px solid var(--borda); border-radius: var(--raio-p);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-circle" style="color: var(--aviso); font-size: 10px;"></i>
+                                    <span style="font-size: 13px; font-weight: 500; color: var(--texto-principal);">RJ / ES — 10 servidores</span>
+                                </div>
+                                <span style="font-size: 12px; color: var(--texto-secundario); font-family: var(--fonte-numeros);">9/10 online</span>
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border: 1px solid var(--borda); border-radius: var(--raio-p);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-circle" style="color: var(--sucesso); font-size: 10px;"></i>
+                                    <span style="font-size: 13px; font-weight: 500; color: var(--texto-principal);">MG / DF — 11 servidores</span>
+                                </div>
+                                <span style="font-size: 12px; color: var(--texto-secundario); font-family: var(--fonte-numeros);">11/11 online</span>
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--alerta-fundo); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: var(--raio-p);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <i class="fa-solid fa-circle" style="color: var(--alerta); font-size: 10px;"></i>
+                                    <span style="font-size: 13px; font-weight: 500; color: var(--alerta);">SC / RS — 9 servidores</span>
+                                </div>
+                                <span style="font-size: 12px; color: var(--alerta); font-family: var(--fonte-numeros); font-weight: 600;">7/9 online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel animate-up" style="margin-top: 8px;">
+                <div class="panel-header">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true" style="color: var(--alerta);"></i>
+                        Alertas e Eventos do Sistema
+                    </div>
+                    <button type="button" class="btn-secondary" style="font-size: 13px; padding: 6px 12px;">
+                        <i class="fa-solid fa-arrow-rotate-right" aria-hidden="true"></i>
+                        Atualizar Tabela
+                    </button>
+                </div>
+                <div class="panel-body no-pad">
+                    <table class="data-table" role="grid" aria-label="Log de alertas ativos">
+                        <thead>
+                            <tr role="row">
+                                <th role="columnheader" style="width: 100px;">Hora</th>
+                                <th role="columnheader" style="width: 130px;">Gravidade</th>
+                                <th role="columnheader">ID do Equipamento</th>
+                                <th role="columnheader">Métrica Afetada</th>
+                                <th role="columnheader">Valor Registrado</th>
+                                <th role="columnheader" style="text-align: right; width: 80px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr role="row">
+                                <td class="td-mono">14:45:23</td>
+                                <td><span class="priority alta" role="status">Crítico</span></td>
+                                <td class="td-mono">NODE_RJ_04</td>
+                                <td>Perda de Pacotes</td>
+                                <td class="td-mono" style="color: var(--alerta); font-weight: 600;">18.7%</td>
+                                <td style="text-align: right;">
+                                    <button type="button" class="btn-ghost" aria-label="Acionar Suporte" title="Acionar Suporte Técnico">
+                                        <i class="fa-solid fa-headset" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr role="row">
+                                <td class="td-mono">14:32:15</td>
+                                <td><span class="priority alta" role="status">Alto</span></td>
+                                <td class="td-mono">NODE_SC_02</td>
+                                <td>Carga de CPU</td>
+                                <td class="td-mono" style="color: var(--aviso); font-weight: 600;">87.3%</td>
+                                <td style="text-align: right;">
+                                    <button type="button" class="btn-ghost" aria-label="Acionar Suporte" title="Acionar Suporte Técnico">
+                                        <i class="fa-solid fa-headset" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr role="row">
+                                <td class="td-mono">14:18:42</td>
+                                <td><span class="priority media" role="status">Médio</span></td>
+                                <td class="td-mono">NODE_SP_08</td>
+                                <td>Gargalo de Banda</td>
+                                <td class="td-mono" style="color: var(--aviso); font-weight: 600;">92.1%</td>
+                                <td style="text-align: right;">
+                                    <button type="button" class="btn-ghost" aria-label="Acionar Suporte" title="Acionar Suporte Técnico">
+                                        <i class="fa-solid fa-headset" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr role="row">
+                                <td class="td-mono">13:45:00</td>
+                                <td>
+                                    <span style="display: inline-flex; padding: 2px 8px; background: var(--info-fundo); color: var(--info); border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;" role="status">Info</span>
+                                </td>
+                                <td class="td-mono">NODE_MG_11</td>
+                                <td>Manutenção Programada</td>
+                                <td class="td-mono" style="color: var(--texto-secundario);">Agendado</td>
+                                <td style="text-align: right;">
+                                    <button type="button" class="btn-ghost" aria-label="Visualizar Ordem de Serviço" title="Ver Detalhes da O.S.">
+                                        <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <script src="js/mockData.js"></script>
+    <script src="js/intelligence/dataModel.js"></script>
+    <script src="js/intelligence/predictiveEngine.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+    
+</body>
+</html>

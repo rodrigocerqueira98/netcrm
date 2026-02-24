@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestão de Clientes - NETCRM PRO">
+    <meta name="theme-color" content="#F3F4F6">
+    
+    <title>Gestão de Clientes | NETCRM PRO</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Ajustes específicos para a lista de clientes */
+        .client-name { font-weight: 600; color: var(--texto-principal); font-size: 14px; margin-bottom: 2px;}
+        .client-doc { font-size: 12px; color: var(--texto-discreto); font-family: var(--fonte-numeros); }
+        .action-btns { display: flex; gap: 8px; justify-content: flex-end; }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar" role="navigation" aria-label="Navegação principal">
+        
+        <div class="logo" aria-label="NETCRM PRO">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <span>NETCRM PRO</span>
+        </div>
+        
+        <div class="sidebar-status" role="status" aria-live="polite">
+            Ambiente Estável
+        </div>
+        
+        <nav aria-label="Menu do sistema">
+            <div class="nav-group-label">Visão Geral</div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> <span>Painel de Controle</span></a></li>
+                <li><a href="funil.html"><i class="fa-solid fa-bars-staggered" aria-hidden="true"></i> <span>Funil de Vendas</span></a></li>
+                <li class="active"><a href="clientes.html" aria-current="page"><i class="fa-solid fa-users" aria-hidden="true"></i> <span>Base de Clientes</span></a></li>
+                <li><a href="analytics.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span>Análise de Negócios</span></a></li>
+            </ul>
+
+            <div class="nav-group-label">Operação & Infraestrutura</div>
+            <ul class="nav-links">
+                <li><a href="monitoramento.html"><i class="fa-solid fa-server" aria-hidden="true"></i> <span>Monitoramento de Rede</span></a></li>
+                <li><a href="financeiro.html"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> <span>Faturamento</span></a></li>
+                <li><a href="#"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <span>Configurações</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <div class="sidebar-user" role="complementary">
+                <div class="user-avatar" aria-hidden="true">RO</div>
+                <div class="user-info">
+                    <div class="user-name">Rodrigo</div>
+                    <div class="user-role">Administrador</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" role="main">
+        
+        <header role="banner">
+            <div class="header-left">
+                <h1>Base de Clientes</h1>
+                <div class="header-breadcrumb">Visão Geral / <span>Clientes Cadastrados</span></div>
+            </div>
+            
+            <div class="header-right">
+                <a href="clientes-cadastro.html" class="btn-primary" style="text-decoration: none;">
+                    <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Novo Cliente
+                </a>
+            </div>
+        </header>
+
+        <section class="content-area" role="region" aria-label="Lista de Clientes">
+            
+            <div class="panel">
+                
+                <div class="panel-header" style="background: var(--fundo-painel);">
+                    <div class="global-search" style="width: 320px; background: var(--fundo-sobreposicao);">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar por nome, CPF/CNPJ ou endereço..." aria-label="Buscar clientes">
+                    </div>
+                    
+                    <div class="panel-actions">
+                        <select class="form-control" id="statusFilter" style="width: auto; background: var(--fundo-sobreposicao);" aria-label="Filtrar por Status">
+                            <option value="todos">Todos os Status</option>
+                            <option value="Ativo">Apenas Ativos</option>
+                            <option value="Bloqueado">Bloqueados</option>
+                            <option value="Cancelado">Cancelados</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="panel-body no-pad">
+                    <table class="data-table" id="clientsTable" aria-label="Diretório de Clientes">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">Cliente / Documento</th>
+                                <th>Localidade Principal</th>
+                                <th>Plano Contratado</th>
+                                <th style="width: 120px;">Status</th>
+                                <th style="text-align: right; width: 120px;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="client-name">TechCorp Soluções</div>
+                                    <div class="client-doc">CNPJ: 12.345.678/0001-90</div>
+                                </td>
+                                <td>Bela Vista, São Paulo - SP</td>
+                                <td>Link Dedicado 1GB</td>
+                                <td><span class="status ativo">Ativo</span></td>
+                                <td class="action-btns">
+                                    <a href="clientes-cadastro.html" class="btn-ghost" aria-label="Editar TechCorp Soluções" title="Editar Cadastro">
+                                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    </a>
+                                    <button class="btn-ghost" aria-label="Faturas TechCorp Soluções" title="Histórico Financeiro">
+                                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="client-name">Roberto Almeida</div>
+                                    <div class="client-doc">CPF: 111.222.333-44</div>
+                                </td>
+                                <td>Tatuapé, São Paulo - SP</td>
+                                <td>Fibra Residencial 500MB</td>
+                                <td><span class="status ativo">Ativo</span></td>
+                                <td class="action-btns">
+                                    <a href="clientes-cadastro.html" class="btn-ghost" aria-label="Editar Roberto Almeida" title="Editar Cadastro">
+                                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    </a>
+                                    <button class="btn-ghost" aria-label="Faturas Roberto Almeida" title="Histórico Financeiro">
+                                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="client-name">Fernanda Costa</div>
+                                    <div class="client-doc">CPF: 555.666.777-88</div>
+                                </td>
+                                <td>Mooca, São Paulo - SP</td>
+                                <td>Fibra Residencial 300MB</td>
+                                <td><span class="status bloqueado">Bloqueado</span></td>
+                                <td class="action-btns">
+                                    <a href="clientes-cadastro.html" class="btn-ghost" aria-label="Editar Fernanda Costa" title="Editar Cadastro">
+                                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    </a>
+                                    <button class="btn-ghost" aria-label="Faturas Fernanda Costa" title="Histórico Financeiro">
+                                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="client-name">Mercadinho São João</div>
+                                    <div class="client-doc">CNPJ: 98.765.432/0001-10</div>
+                                </td>
+                                <td>Itaquera, São Paulo - SP</td>
+                                <td>Fibra Empresarial 700MB</td>
+                                <td><span class="status cancelado">Cancelado</span></td>
+                                <td class="action-btns">
+                                    <a href="clientes-cadastro.html" class="btn-ghost" aria-label="Editar Mercadinho São João" title="Editar Cadastro">
+                                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    </a>
+                                    <button class="btn-ghost" aria-label="Faturas Mercadinho São João" title="Histórico Financeiro">
+                                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const tableRows = document.querySelectorAll('#clientsTable tbody tr');
+
+            function filterTable() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const statusTerm = statusFilter.value;
+
+                tableRows.forEach(row => {
+                    const textContent = row.textContent.toLowerCase();
+                    // Captura o texto dentro da tag span.status
+                    const statusCell = row.querySelector('.status').textContent;
+                    
+                    const matchesSearch = textContent.includes(searchTerm);
+                    const matchesStatus = statusTerm === 'todos' || statusCell === statusTerm;
+
+                    if (matchesSearch && matchesStatus) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', filterTable);
+            statusFilter.addEventListener('change', filterTable);
+        });
+    </script>
+</body>
+</html>

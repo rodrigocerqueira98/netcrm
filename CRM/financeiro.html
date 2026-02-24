@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gestão Financeira e Análise de Receitas - NETCRM PRO">
+    <meta name="theme-color" content="#F3F4F6">
+    
+    <title>Financeiro | NETCRM PRO</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Ajustes finos para a interface financeira */
+        .stat-strip-value.positivo { color: var(--sucesso); }
+        .stat-strip-value.negativo { color: var(--alerta); }
+        .valor-transacao { font-family: var(--fonte-numeros); font-weight: 600; font-size: 13px; }
+        .valor-entrada { color: var(--sucesso); }
+        .valor-saida { color: var(--alerta); }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" role="navigation" aria-label="Navegação principal">
+        <div class="logo" aria-label="NETCRM PRO">
+            <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+            <span>NETCRM PRO</span>
+        </div>
+
+        <div class="sidebar-status" role="status" aria-live="polite">
+            Conciliação Ativa
+        </div>
+
+        <nav aria-label="Menu do sistema">
+            <div class="nav-group-label">Visão Geral</div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-solid fa-chart-pie" aria-hidden="true"></i> <span>Painel de Controle</span></a></li>
+                <li><a href="funil.html"><i class="fa-solid fa-bars-staggered" aria-hidden="true"></i> <span>Funil de Vendas</span></a></li>
+                <li><a href="clientes.html"><i class="fa-solid fa-users" aria-hidden="true"></i> <span>Base de Clientes</span></a></li>
+                <li><a href="analytics.html"><i class="fa-solid fa-chart-line" aria-hidden="true"></i> <span>Análise de Negócios</span></a></li>
+            </ul>
+
+            <div class="nav-group-label">Operação & Infraestrutura</div>
+            <ul class="nav-links">
+                <li><a href="monitoramento.html"><i class="fa-solid fa-server" aria-hidden="true"></i> <span>Monitoramento de Rede</span></a></li>
+                <li class="active">
+                    <a href="financeiro.html" aria-current="page">
+                        <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i> 
+                        <span>Faturamento</span>
+                    </a>
+                </li>
+                <li><a href="#"><i class="fa-solid fa-sliders" aria-hidden="true"></i> <span>Configurações</span></a></li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="sidebar-user" role="complementary">
+                <div class="user-avatar" aria-hidden="true">RO</div>
+                <div class="user-info">
+                    <div class="user-name">Rodrigo</div>
+                    <div class="user-role">Gestor Financeiro</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-content" role="main">
+        
+        <header role="banner">
+            <div class="header-left">
+                <h1>Fluxo de Caixa e Receita</h1>
+                <div class="header-breadcrumb">Faturamento / <span>Análise de Receita</span></div>
+            </div>
+
+            <div class="header-right">
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <label for="period-filter" style="font-size: 12px; color: var(--texto-secundario); font-weight: 500;">Período:</label>
+                    <select id="period-filter" class="form-control" style="width: auto; background: var(--fundo-sobreposicao);">
+                        <option value="february">Fevereiro 2026</option>
+                        <option value="january">Janeiro 2026</option>
+                        <option value="q1">1º Trimestre 2026</option>
+                        <option value="fy2026">Ano Fiscal 2026</option>
+                    </select>
+                </div>
+
+                <button type="button" class="header-action" aria-label="Baixar Relatório">
+                    <i class="fa-solid fa-file-export"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="content-area" role="region" aria-label="Área financeira">
+            
+            <div class="stat-strip animate-up stagger-1">
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Faturamento Mensal</span>
+                    <span class="stat-strip-value positivo">R$ 847.250,00</span>
+                    <span class="stat-strip-sub">Meta: R$ 1.000.000</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Despesas Operacionais</span>
+                    <span class="stat-strip-value negativo">R$ 356.200,00</span>
+                    <span class="stat-strip-sub">42% da Receita</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Lucro Líquido</span>
+                    <span class="stat-strip-value positivo">R$ 491.050,00</span>
+                    <span class="stat-strip-sub" style="color: var(--primaria);">+18.4% vs mês ant.</span>
+                </div>
+
+                <div class="stat-strip-item">
+                    <span class="stat-strip-label">Margem de Lucro</span>
+                    <span class="stat-strip-value mono">58.0%</span>
+                    <span class="stat-strip-sub">Saúde Financeira: OK ✓</span>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card animate-up stagger-2">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Ticket Médio</span>
+                        <div class="kpi-icon cyan"><i class="fa-solid fa-receipt"></i></div>
+                    </div>
+                    <div class="kpi-value mono">R$ 17.651</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> R$ 2.100</div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-3">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Contas a Receber</span>
+                        <div class="kpi-icon blue"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    </div>
+                    <div class="kpi-value mono">R$ 124.560</div>
+                    <div class="kpi-delta down" style="background: var(--aviso-fundo); color: var(--aviso);">
+                        <i class="fa-solid fa-clock"></i> Pendente
+                    </div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-4">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Fluxo de Caixa (Realizado)</span>
+                        <div class="kpi-icon green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                    </div>
+                    <div class="kpi-value mono">R$ 632.890</div>
+                    <div class="kpi-delta up"><i class="fa-solid fa-arrow-up"></i> 12.4%</div>
+                </div>
+
+                <div class="kpi-card animate-up stagger-5">
+                    <div class="kpi-header">
+                        <span class="kpi-label">Taxa de Churn (Cancelamento)</span>
+                        <div class="kpi-icon red"><i class="fa-solid fa-user-minus"></i></div>
+                    </div>
+                    <div class="kpi-value mono">1.8%</div>
+                    <div class="kpi-sub">3 contratos encerrados</div>
+                </div>
+            </div>
+
+            <div class="section-grid">
+                <div class="panel animate-up stagger-6">
+                    <div class="panel-header">
+                        <div class="panel-title"><i class="fa-solid fa-chart-column"></i> Evolução Financeira Semestral</div>
+                        <div class="panel-actions">
+                            <button type="button" class="btn-ghost active">6 meses</button>
+                            <button type="button" class="btn-ghost">1 ano</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="financialChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel animate-up stagger-6">
+                    <div class="panel-header">
+                        <div class="panel-title"><i class="fa-solid fa-chart-pie"></i> Mix de Produtos</div>
+                    </div>
+                    <div class="panel-body">
+                        <div style="display: grid; gap: 12px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border-radius: var(--raio-p); border: 1px solid var(--borda);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 12px; height: 12px; border-radius: 2px; background: var(--primaria);"></div>
+                                    <span style="font-size: 13px; font-weight: 500;">Fibra Residencial — 45%</span>
+                                </div>
+                                <span class="td-mono" style="font-size: 12px;">R$ 381.263</span>
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border-radius: var(--raio-p); border: 1px solid var(--borda);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 12px; height: 12px; border-radius: 2px; background: var(--destaque);"></div>
+                                    <span style="font-size: 13px; font-weight: 500;">Links Dedicados — 38%</span>
+                                </div>
+                                <span class="td-mono" style="font-size: 12px;">R$ 322.075</span>
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--fundo-sobreposicao); border-radius: var(--raio-p); border: 1px solid var(--borda);">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 12px; height: 12px; border-radius: 2px; background: var(--sucesso);"></div>
+                                    <span style="font-size: 13px; font-weight: 500;">Suporte Avançado — 17%</span>
+                                </div>
+                                <span class="td-mono" style="font-size: 12px;">R$ 143.912</span>
+                            </div>
+
+                            <div style="border-top: 1px solid var(--borda); margin-top: 8px; padding-top: 12px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 14px; font-weight: 700;">Receita Total Estimada</span>
+                                    <span style="font-size: 14px; color: var(--primaria); font-weight: 700; font-family: var(--fonte-numeros);">R$ 847.250</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel animate-up">
+                <div class="panel-header">
+                    <div class="panel-title"><i class="fa-solid fa-list-check"></i> Extrato de Movimentações</div>
+                    <button type="button" class="btn-primary" style="font-size: 13px;">
+                        <i class="fa-solid fa-plus"></i> Nova Lançamento
+                    </button>
+                </div>
+                <div class="panel-body no-pad">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 120px;">Data</th>
+                                <th>Descrição / Beneficiário</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th style="text-align: right;">Valor</th>
+                                <th style="text-align: center; width: 120px;">Situação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-mono">23/02/2026</td>
+                                <td>
+                                    <div class="cell-contact">
+                                        <div class="cell-avatar" style="background: var(--sucesso-fundo); color: var(--sucesso); border: none;">
+                                            <i class="fa-solid fa-arrow-up"></i>
+                                        </div>
+                                        <div>
+                                            <div class="cell-name">Fatura #2402-0001</div>
+                                            <div class="cell-sub">TechCorp Soluções</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Faturamento Mensal</td>
+                                <td><span style="color: var(--sucesso); font-size: 11px; font-weight: 700;">RECEITA</span></td>
+                                <td style="text-align: right;" class="valor-transacao valor-entrada">+ R$ 999,90</td>
+                                <td style="text-align: center;"><span class="status ativo">Pago</span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="td-mono">23/02/2026</td>
+                                <td>
+                                    <div class="cell-contact">
+                                        <div class="cell-avatar" style="background: var(--alerta-fundo); color: var(--alerta); border: none;">
+                                            <i class="fa-solid fa-arrow-down"></i>
+                                        </div>
+                                        <div>
+                                            <div class="cell-name">Folha de Pagamento</div>
+                                            <div class="cell-sub">Operacional - Fevereiro</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Salários e Encargos</td>
+                                <td><span style="color: var(--alerta); font-size: 11px; font-weight: 700;">DESPESA</span></td>
+                                <td style="text-align: right;" class="valor-transacao valor-saida">- R$ 248.500,00</td>
+                                <td style="text-align: center;"><span class="status ativo">Pago</span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="td-mono">22/02/2026</td>
+                                <td>
+                                    <div class="cell-contact">
+                                        <div class="cell-avatar" style="background: var(--sucesso-fundo); color: var(--sucesso); border: none;">
+                                            <i class="fa-solid fa-arrow-up"></i>
+                                        </div>
+                                        <div>
+                                            <div class="cell-name">Fatura #2402-0002</div>
+                                            <div class="cell-sub">Grupo Nexus</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Projeto Implementação</td>
+                                <td><span style="color: var(--sucesso); font-size: 11px; font-weight: 700;">RECEITA</span></td>
+                                <td style="text-align: right;" class="valor-transacao valor-entrada">+ R$ 1.850,00</td>
+                                <td style="text-align: center;"><span class="status pendente">Pendente</span></td>
+                            </tr>
+
+                            <tr>
+                                <td class="td-mono">21/02/2026</td>
+                                <td>
+                                    <div class="cell-contact">
+                                        <div class="cell-avatar" style="background: var(--alerta-fundo); color: var(--alerta); border: none;">
+                                            <i class="fa-solid fa-arrow-down"></i>
+                                        </div>
+                                        <div>
+                                            <div class="cell-name">Infraestrutura AWS</div>
+                                            <div class="cell-sub">Amazon Web Services</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Custo de Operação</td>
+                                <td><span style="color: var(--alerta); font-size: 11px; font-weight: 700;">DESPESA</span></td>
+                                <td style="text-align: right;" class="valor-transacao valor-saida">- R$ 12.450,00</td>
+                                <td style="text-align: center;"><span class="status ativo">Pago</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/mockData.js"></script>
+    <script src="js/intelligence/dataModel.js"></script>
+    <script src="js/intelligence/predictiveEngine.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+
+</body>
+</html>
